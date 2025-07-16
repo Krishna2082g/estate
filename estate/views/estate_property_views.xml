@@ -92,7 +92,7 @@
                 <field name="bedrooms"/>
                 <field name="expected_price"/>
                 <field name="property_type_id"/>
-                <!-- ✅ added here -->
+
 
                 <filter string="available properties" name="available_properties" domain="[('state','in',['New','offer Received'])]"/>
                 <filter string="Garage" name="has_garage" domain="[('garage', '=', True)]"/>
@@ -114,5 +114,31 @@
     <menuitem id="test_menu_root" name="Real estate"/>
     <menuitem id="test_first_level_menu" name="Advertisement" parent="test_menu_root"/>
     <menuitem id="test_model_menu_action" name="Properties" parent="test_first_level_menu" action="test_model_action"/>
+    <!-- Properties under Advertisement -->
+    <menuitem id="test_model_menu_action" name="Properties" parent="test_first_level_menu" action="test_model_action"/>
+
+    <!-- Settings Menu under Real Estate -->
+    <menuitem id="real_estate_settings_menu" name="Settings" parent="test_menu_root"/>
+
+    <!-- Property Type Action -->
+    <record id="action_estate_property_type" model="ir.actions.act_window">
+        <field name="name">Property Types</field>
+        <field name="res_model">estate.property.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Property Tag Action -->
+    <record id="action_estate_property_tag" model="ir.actions.act_window">
+        <field name="name">Property Tags</field>
+        <field name="res_model">estate.property.tag</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Property Types under Settings -->
+    <menuitem id="menu_estate_property_type" name="Property Types" parent="real_estate_settings_menu" action="action_estate_property_type"/>
+
+    <!-- Property Tags under Settings -->
+    <menuitem id="menu_estate_property_tag" name="Property Tags" parent="real_estate_settings_menu" action="action_estate_property_tag"/>
+
 
 </odoo>
