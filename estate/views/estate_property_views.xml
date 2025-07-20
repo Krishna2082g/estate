@@ -11,10 +11,13 @@
                 <field name="postcode"/>
                 <field name="bedrooms"/>
                 <field name="living_area"/>
+                <field name="garden_area"/>
+                <field name="total_area"/> <!-- Computed -->
                 <field name="expected_price"/>
+                <field name="best_price"/> <!-- Computed -->
                 <field name="selling_price"/>
                 <field name="date_availability"/>
-                <field name="property_type_id" />
+                <field name="property_type_id"/>
             </tree>
         </field>
     </record>
@@ -40,6 +43,7 @@
                         <group>
                             <field name="expected_price"/>
                             <field name="selling_price"/>
+                            <field name="best_price" readonly="1"/> <!-- Computed field -->
                         </group>
                     </group>
 
@@ -49,10 +53,11 @@
                                 <field name="description"/>
                                 <field name="bedrooms"/>
                                 <field name="living_area"/>
+                                <field name="garden_area"/>
+                                <field name="total_area" readonly="1"/> <!-- Computed field -->
                                 <field name="facades"/>
                                 <field name="garage"/>
                                 <field name="garden"/>
-                                <field name="garden_area"/>
                                 <field name="garden_orientation"/>
                                 <field name="tag_ids" widget="many2many_tags"/>
                             </group>
@@ -93,11 +98,10 @@
                 <field name="expected_price"/>
                 <field name="property_type_id"/>
 
-
                 <filter string="available properties" name="available_properties" domain="[('state','in',['New','offer Received'])]"/>
                 <filter string="Garage" name="has_garage" domain="[('garage', '=', True)]"/>
                 <group expand="1" string="Group By">
-                    <filter name="group_by_postcode" string="Postcode" context="{'group_by': 'postcode'}" />
+                    <filter name="group_by_postcode" string="Postcode" context="{'group_by': 'postcode'}"/>
                 </group>
             </search>
         </field>
@@ -113,8 +117,6 @@
     <!-- Menu -->
     <menuitem id="test_menu_root" name="Real estate"/>
     <menuitem id="test_first_level_menu" name="Advertisement" parent="test_menu_root"/>
-    <menuitem id="test_model_menu_action" name="Properties" parent="test_first_level_menu" action="test_model_action"/>
-    <!-- Properties under Advertisement -->
     <menuitem id="test_model_menu_action" name="Properties" parent="test_first_level_menu" action="test_model_action"/>
 
     <!-- Settings Menu under Real Estate -->
@@ -139,6 +141,5 @@
 
     <!-- Property Tags under Settings -->
     <menuitem id="menu_estate_property_tag" name="Property Tags" parent="real_estate_settings_menu" action="action_estate_property_tag"/>
-
 
 </odoo>
