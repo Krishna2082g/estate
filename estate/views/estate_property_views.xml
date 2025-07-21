@@ -13,10 +13,10 @@
                 <field name="living_area"/>
                 <field name="garden_area"/>
                 <field name="total_area"/>
-    
+
                 <field name="expected_price"/>
                 <field name="best_price"/>
-              
+
                 <field name="selling_price"/>
                 <field name="date_availability"/>
                 <field name="property_type_id"/>
@@ -78,11 +78,16 @@
                                     <field name="validity"/>
                                     <field name="date_deadline"/>
                                     <field name="status"/>
-                                    <button name="action_accept_offer" type="object" icon="fa-check" title="Accept Offer" attrs="{'invisible': [('status', '=', 'accepted')]}"/>
-                                    <button name="action_refuse_offer" type="object" icon="fa-times" title="Refuse Offer" attrs="{'invisible': [('status', '=', 'refused')]}"/>
+
+                                    <!-- Accept Offer button (✓) -->
+                                    <button name="action_accept_offer" type="object" icon="fa-check" title="Accept" attrs="{'visible': [('status', '=', 'accepted')]}"/>
+
+                                    <!-- Refuse Offer button (✕) -->
+                                    <button name="action_refuse_offer" type="object" icon="fa-times" title="Refuse" attrs="{'visible': [('status', '=', 'refused')]}"/>
                                 </tree>
                             </field>
                         </page>
+
 
 
 
