@@ -12,12 +12,15 @@
                 <field name="bedrooms"/>
                 <field name="living_area"/>
                 <field name="garden_area"/>
-                <field name="total_area"/> <!-- Computed -->
+                <field name="total_area"/>
+    
                 <field name="expected_price"/>
-                <field name="best_price"/> <!-- Computed -->
+                <field name="best_price"/>
+              
                 <field name="selling_price"/>
                 <field name="date_availability"/>
                 <field name="property_type_id"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -28,6 +31,10 @@
         <field name="model">test_model</field>
         <field name="arch" type="xml">
             <form string="My new house">
+                <header>
+                    <button name="action_mark_sold" type="object" string="Mark as Sold" class="btn-primary" attrs="{'invisible': [('state', 'in', ['sold', 'canceled'])]}"/>
+                    <button name="action_cancel_property" type="object" string="Cancel" class="btn-secondary" attrs="{'invisible': [('state', 'in', ['sold', 'canceled'])]}"/>
+                </header>
                 <sheet>
 
                     <h1>
@@ -38,12 +45,12 @@
                         <group>
                             <field name="postcode"/>
                             <field name="date_availability"/>
-                            <field name="property_type_id" />
+                            <field name="property_type_id"/>
                         </group>
                         <group>
                             <field name="expected_price"/>
                             <field name="selling_price"/>
-                            <field name="best_price" readonly="1"/> <!-- Computed field -->
+                            <field name="best_price" readonly="1"/>
                         </group>
                     </group>
 
@@ -54,7 +61,7 @@
                                 <field name="bedrooms"/>
                                 <field name="living_area"/>
                                 <field name="garden_area"/>
-                                <field name="total_area" readonly="1"/> <!-- Computed field -->
+                                <field name="total_area" readonly="1"/>
                                 <field name="facades"/>
                                 <field name="garage"/>
                                 <field name="garden"/>
@@ -68,15 +75,22 @@
                                 <tree editable="bottom">
                                     <field name="price"/>
                                     <field name="partner_id"/>
+                                    <field name="validity"/>
+                                    <field name="date_deadline"/>
                                     <field name="status"/>
+                                    <button name="action_accept_offer" type="object" icon="fa-check" title="Accept Offer" attrs="{'invisible': [('status', '=', 'accepted')]}"/>
+                                    <button name="action_refuse_offer" type="object" icon="fa-times" title="Refuse Offer" attrs="{'invisible': [('status', '=', 'refused')]}"/>
                                 </tree>
                             </field>
                         </page>
+
+
 
                         <page string="Other Info">
                             <group>
                                 <field name="salesperson_id"/>
                                 <field name="buyer_id"/>
+                                <field name="state" readonly="1"/>
                             </group>
                         </page>
 
@@ -98,7 +112,7 @@
                 <field name="expected_price"/>
                 <field name="property_type_id"/>
 
-                <filter string="available properties" name="available_properties" domain="[('state','in',['New','offer Received'])]"/>
+                <filter string="Available Properties" name="available_properties" domain="[('state','in',['new','offer_received'])]"/>
                 <filter string="Garage" name="has_garage" domain="[('garage', '=', True)]"/>
                 <group expand="1" string="Group By">
                     <filter name="group_by_postcode" string="Postcode" context="{'group_by': 'postcode'}"/>
@@ -115,7 +129,7 @@
     </record>
 
     <!-- Menu -->
-    <menuitem id="test_menu_root" name="Real estate"/>
+    <menuitem id="test_menu_root" name="Real Estate"/>
     <menuitem id="test_first_level_menu" name="Advertisement" parent="test_menu_root"/>
     <menuitem id="test_model_menu_action" name="Properties" parent="test_first_level_menu" action="test_model_action"/>
 
