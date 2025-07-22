@@ -30,6 +30,7 @@ class TestModel(models.Model):
         ('sold', 'Sold'),
         ('canceled', 'Canceled'),
     ], string="Status", default='new')
+    
 
     property_type_id = fields.Many2one('estate.property.type', string="Property Type")
     buyer_id = fields.Many2one('res.partner', string='Buyer', copy=False)
@@ -38,6 +39,7 @@ class TestModel(models.Model):
     offer_ids = fields.One2many('estate.property.offer', 'property_id', string='Offers')
     total_area = fields.Float(compute="_compute_total_area")
     best_price = fields.Float(string="Best Offer", compute="_compute_best_price")
+    
 
     @api.depends('living_area', 'garden_area')
     def _compute_total_area(self):

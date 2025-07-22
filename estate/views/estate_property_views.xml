@@ -32,8 +32,8 @@
         <field name="arch" type="xml">
             <form string="My new house">
                 <header>
-                    <button name="action_mark_sold" type="object" string="Mark as Sold" class="btn-primary" attrs="{'invisible': [('state', 'in', ['sold', 'canceled'])]}"/>
-                    <button name="action_cancel_property" type="object" string="Cancel" class="btn-secondary" attrs="{'invisible': [('state', 'in', ['sold', 'canceled'])]}"/>
+                    <button name="action_mark_sold" type="object" string="Mark as Sold" class="btn-primary" attrs="{'visible': [('state', 'in', ['sold', 'canceled'])]}"/>
+                    <button name="action_cancel_property" type="object" string="Cancel" class="btn-secondary" attrs="{'visible': [('state', 'in', ['sold', 'canceled'])]}"/>
                 </header>
                 <sheet>
 
