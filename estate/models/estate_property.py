@@ -1,5 +1,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+from odoo.tools.float_utils import float_compare, float_is_zero
+from odoo.exceptions import ValidationError
 
 class TestModel(models.Model):
     _name = 'test_model'
@@ -73,3 +75,19 @@ class TestModel(models.Model):
                 raise UserError("Sold properties cannot be canceled.")
             record.state = 'canceled'
         return True
+    
+    _sql_constraints = [
+        ('check_expected_price', 'CHECK(expected_price > 0)', 'Expected price must be strictly positive.'),
+        ('check_selling_price', 'CHECK(selling_price >= 0)', 'Selling price must be positive.'),
+    ]
+    
+    @api.constrains('selling_price', 'expected_price')
+    def _check_selling_price_margin(self):
+        for record in self:
+            if float_is_zero(record.selling_price, precision_digits=2):
+                continue  
+
+            min_price = 0.9 * record.expected_price
+            if float_compare(record.selling_price, min_price, precision_digits=2) < 0:
+                raise ValidationError("Selling price must be at least 90 of the expected price.")
+    
