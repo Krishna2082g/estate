@@ -13,10 +13,8 @@
                 <field name="living_area"/>
                 <field name="garden_area"/>
                 <field name="total_area"/>
-
                 <field name="expected_price"/>
                 <field name="best_price"/>
-
                 <field name="selling_price"/>
                 <field name="date_availability"/>
                 <field name="property_type_id"/>
@@ -32,15 +30,13 @@
         <field name="arch" type="xml">
             <form string="My new house">
                 <header>
-                    <button name="action_mark_sold" type="object" string="Mark as Sold" class="btn-primary" attrs="{'visible': [('state', 'in', ['sold', 'canceled'])]}"/>
-                    <button name="action_cancel_property" type="object" string="Cancel" class="btn-secondary" attrs="{'visible': [('state', 'in', ['sold', 'canceled'])]}"/>
+                    <button name="action_mark_sold" type="object" string="Mark as Sold" class="btn-primary" attrs="{'invisible': [('state', 'in', ['sold', 'canceled'])]}"/>
+                    <button name="action_cancel_property" type="object" string="Cancel" class="btn-secondary" attrs="{'invisible': [('state', 'in', ['sold', 'canceled'])]}"/>
                 </header>
                 <sheet>
-
                     <h1>
                         <field name="name"/>
                     </h1>
-
                     <group>
                         <group>
                             <field name="postcode"/>
@@ -53,7 +49,6 @@
                             <field name="best_price" readonly="1"/>
                         </group>
                     </group>
-
                     <notebook>
                         <page string="Description">
                             <group>
@@ -79,17 +74,14 @@
                                     <field name="date_deadline"/>
                                     <field name="status"/>
 
-                                    <!-- Accept Offer button (✓) -->
+                                    <!-- Accept Offer button  -->
                                     <button name="action_accept_offer" type="object" icon="fa-check" title="Accept" attrs="{'visible': [('status', '=', 'accepted')]}"/>
 
-                                    <!-- Refuse Offer button (✕) -->
+                                    <!-- Refuse Offer button  -->
                                     <button name="action_refuse_offer" type="object" icon="fa-times" title="Refuse" attrs="{'visible': [('status', '=', 'refused')]}"/>
                                 </tree>
                             </field>
                         </page>
-
-
-
 
                         <page string="Other Info">
                             <group>
@@ -147,6 +139,38 @@
         <field name="res_model">estate.property.type</field>
         <field name="view_mode">tree,form</field>
     </record>
+
+    <!-- Property Type Form View (inline properties list) -->
+    <record id="view_estate_property_type_form" model="ir.ui.view">
+        <field name="name">estate.property.type.form</field>
+        <field name="model">estate.property.type</field>
+        <field name="arch" type="xml">
+            <form string="Property Type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group string="Properties of this Type">
+                        <field name="property_ids">
+                            <tree>
+                                <field name="name"/>
+                                <field name="expected_price"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Property Type Action -->
+    <record id="action_estate_property_type" model="ir.actions.act_window">
+        <field name="name">Property Types</field>
+        <field name="res_model">estate.property.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
 
     <!-- Property Tag Action -->
     <record id="action_estate_property_tag" model="ir.actions.act_window">
