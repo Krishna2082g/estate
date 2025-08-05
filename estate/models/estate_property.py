@@ -29,6 +29,7 @@ class TestModel(models.Model):
     state = fields.Selection([
         ('new', 'New'),
         ('offer_received', 'Offer Received'),
+        ('offer_accepted', 'Offer Accepted'),
         ('sold', 'Sold'),
         ('canceled', 'Canceled'),
     ], string="Status", default='new')
